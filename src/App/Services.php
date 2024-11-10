@@ -29,3 +29,7 @@ $container['userService'] = static function (Pimple\Container $container): App\S
 $container['userProfileService'] = static function (Pimple\Container $container): App\Service\UserProfileService {
     return new App\Service\UserProfileService($container['db']);
 };
+
+$container['authService'] = static function (Pimple\Container $container): App\Service\AuthService {
+    return new App\Service\AuthService($container['db']);
+};
