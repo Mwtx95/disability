@@ -36,55 +36,9 @@
     }
   ],
   "paths": {
-    "/categories": {
-      "get": {
-        "tags": [
-          "Category"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Category"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      }
-    },
     "/assets": {
       "get": {
-        "tags": [
-          "Asset"
-        ],
+        "tags": ["Asset"],
         "parameters": [],
         "responses": {
           "200": {
@@ -96,9 +50,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Asset"
-        ],
+        "tags": ["Asset"],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -115,11 +67,57 @@
                   "categoryId": {
                     "type": "integer"
                   },
-                  "statusId": {
-                    "type": "integer"
-                  },
                   "officeId": {
                     "type": "integer"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "Available",
+                      "Maintenance",
+                      "Rented",
+                      "NotAvailable"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "tags": ["Category"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Category"],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
                   }
                 }
               }
@@ -138,9 +136,7 @@
     },
     "/offices": {
       "get": {
-        "tags": [
-          "Office"
-        ],
+        "tags": ["Office"],
         "parameters": [],
         "responses": {
           "200": {
@@ -152,9 +148,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Office"
-        ],
+        "tags": ["Office"],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -182,9 +176,7 @@
     },
     "/roles": {
       "get": {
-        "tags": [
-          "Role"
-        ],
+        "tags": ["Role"],
         "parameters": [],
         "responses": {
           "200": {
@@ -196,9 +188,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Role"
-        ],
+        "tags": ["Role"],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -226,9 +216,7 @@
     },
     "/statuses": {
       "get": {
-        "tags": [
-          "Status"
-        ],
+        "tags": ["Status"],
         "parameters": [],
         "responses": {
           "200": {
@@ -240,9 +228,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Status"
-        ],
+        "tags": ["Status"],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -270,9 +256,7 @@
     },
     "/users": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "parameters": [],
         "responses": {
           "200": {
@@ -284,9 +268,7 @@
         }
       },
       "post": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -326,9 +308,7 @@
     },
     "/user-profiles": {
       "get": {
-        "tags": [
-          "UserProfile"
-        ],
+        "tags": ["UserProfile"],
         "parameters": [],
         "responses": {
           "200": {
@@ -340,9 +320,7 @@
         }
       },
       "post": {
-        "tags": [
-          "UserProfile"
-        ],
+        "tags": ["UserProfile"],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -374,11 +352,64 @@
         }
       }
     },
-    "/categories/{id}": {
-      "get": {
-        "tags": [
-          "Category"
-        ],
+    "/auths/login": {
+      "post": {
+        "tags": ["Auth"],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/auths/register": {
+      "post": {
+        "tags": ["Auth"],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/offices/{id}": {
+      "delete": {
+        "tags": ["Office"],
         "parameters": [
           {
             "name": "id",
@@ -398,10 +429,8 @@
           }
         }
       },
-      "delete": {
-        "tags": [
-          "Category"
-        ],
+      "get": {
+        "tags": ["Office"],
         "parameters": [
           {
             "name": "id",
@@ -422,9 +451,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Category"
-        ],
+        "tags": ["Office"],
         "parameters": [
           {
             "name": "id",
@@ -459,11 +486,9 @@
         }
       }
     },
-    "/offices/{id}": {
-      "get": {
-        "tags": [
-          "Office"
-        ],
+    "/categories/{id}": {
+      "delete": {
+        "tags": ["Category"],
         "parameters": [
           {
             "name": "id",
@@ -483,10 +508,8 @@
           }
         }
       },
-      "delete": {
-        "tags": [
-          "Office"
-        ],
+      "get": {
+        "tags": ["Category"],
         "parameters": [
           {
             "name": "id",
@@ -507,9 +530,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Office"
-        ],
+        "tags": ["Category"],
         "parameters": [
           {
             "name": "id",
@@ -517,6 +538,164 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/roles/{id}": {
+      "get": {
+        "tags": ["Role"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Role"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Role"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/statuses/{id}": {
+      "get": {
+        "tags": ["Status"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Status"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Status"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
             }
           }
         ],
@@ -545,33 +724,8 @@
       }
     },
     "/assets/{id}": {
-      "delete": {
-        "tags": [
-          "Asset"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      },
       "get": {
-        "tags": [
-          "Asset"
-        ],
+        "tags": ["Asset"],
         "parameters": [
           {
             "name": "id",
@@ -592,9 +746,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Asset"
-        ],
+        "tags": ["Asset"],
         "parameters": [
           {
             "name": "id",
@@ -620,9 +772,6 @@
                   "categoryId": {
                     "type": "integer"
                   },
-                  "statusId": {
-                    "type": "integer"
-                  },
                   "officeId": {
                     "type": "integer"
                   }
@@ -639,13 +788,32 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         }
+      },
+      "delete": {
+        "tags": ["Asset"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
       }
     },
     "/users/{id}": {
       "delete": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "parameters": [
           {
             "name": "id",
@@ -666,9 +834,7 @@
         }
       },
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "parameters": [
           {
             "name": "id",
@@ -689,9 +855,7 @@
         }
       },
       "put": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "parameters": [
           {
             "name": "id",
@@ -738,204 +902,9 @@
         }
       }
     },
-    "/roles/{id}": {
-      "delete": {
-        "tags": [
-          "Role"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Role"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Role"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      }
-    },
-    "/statuses/{id}": {
-      "get": {
-        "tags": [
-          "Status"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Status"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Status"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      }
-    },
     "/user-profiles/{id}": {
-      "get": {
-        "tags": [
-          "UserProfile"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      },
       "delete": {
-        "tags": [
-          "UserProfile"
-        ],
+        "tags": ["UserProfile"],
         "parameters": [
           {
             "name": "id",
@@ -956,9 +925,7 @@
         }
       },
       "put": {
-        "tags": [
-          "UserProfile"
-        ],
+        "tags": ["UserProfile"],
         "parameters": [
           {
             "name": "id",
@@ -997,84 +964,22 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         }
-      }
-    },
-    "/auth/login": {
-      "post": {
-        "tags": ["Auth"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["username", "password"],
-                "properties": {
-                  "username": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Login successful"
-          },
-          "401": {
-            "description": "Invalid credentials"
-          }
-        }
-      }
-    },
-    "/auth/register": {
-      "post": {
-        "tags": ["Auth"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["username", "password", "email"],
-                "properties": {
-                  "username": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "User registered successfully"
-          },
-          "409": {
-            "description": "Username or email already exists"
-          }
-        }
-      }
-    },
-    "/auth/logout": {
-      "post": {
-        "tags": ["Auth"],
-        "security": [
+      },
+      "get": {
+        "tags": ["UserProfile"],
+        "parameters": [
           {
-            "bearerAuth": []
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Logout successful"
+            "description": "OK"
           },
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"

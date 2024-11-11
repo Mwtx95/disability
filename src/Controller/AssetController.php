@@ -49,7 +49,7 @@ final class AssetController
         'name' => $input['name'],
         'description' => $input['description'],
         'categoryId' => $input['categoryId'],
-        'statusId' => $input['statusId'],
+        'status' => $input['status'],
         'officeId' => $input['officeId'] ?: null,
       ];
 
