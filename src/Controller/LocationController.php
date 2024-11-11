@@ -6,24 +6,24 @@ namespace App\Controller;
 
 use App\CustomResponse as Response;
 use App\Helper;
-use App\Service\AssetService;
+use App\Service\LocationService;
 use Exception;
 use Pimple\Psr11\Container;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-final class AssetController
+final class LocationController
 {
-  private AssetService $assetService;
+  private LocationService $locationService;
 
   public function __construct(private readonly Container $container)
   {
-    $this->assetService = $this->container->get('assetService');
+    $this->locationService = $this->container->get('locationService');
   }
 
   public function getAll(Request $request, Response $response, array $args): Response
   {
     try {
-      $result = $this->assetService->getAll();
+      $result = $this->locationService->getAll();
       return $response->withJson($result);
     } catch (Exception $e) {
       return $response->withJson(['error' => $e->getMessage()], 500);
@@ -33,7 +33,7 @@ final class AssetController
   public function getOne(Request $request, Response $response, array $args): Response
   {
     try {
-      $result = $this->assetService->getOne((string) $args['id']);
+      $result = $this->locationService->getOne((string) $args['id']);
       return $response->withJson($result);
     } catch (Exception $e) {
       return $response->withJson(['error' => $e->getMessage()], 404);
@@ -47,15 +47,15 @@ final class AssetController
 
       $dto = [
         'name' => $input['name'],
-        'description' => $input['description'],
-        'categoryId' => $input['categoryId'],
-        'status' => $input['status'],
-        'locationId' => $input['locationId'] ?: null,
+        'type' => $input['type'],
+        'parentLocation' => $input['parentLocation'] ?: null,
+        'description' => $input['description'] ?: null,
+        'isBlocked' => 0,
       ];
 
       $dto = array_filter($dto, fn($value) => $value !== null);
 
-      $this->assetService->create($dto);
+      $this->locationService->create($dto);
       return $response->withStatus(201);
     } catch (Exception $e) {
       $duplicateErrorCode = 1062;
@@ -79,15 +79,14 @@ final class AssetController
 
       $dto = [
         'name' => $input['name'] ?: null,
+        'type' => $input['type'] ?: null,
+        'parentLocation' => $input['parentLocation'] ?: null,
         'description' => $input['description'] ?: null,
-        'categoryId' => $input['categoryId'] ?: null,
-        'status' => $input['status'] ?: null,
-        'locationId' => $input['locationId'] ?: null,
       ];
 
       $dto = array_filter($dto, fn($value) => $value !== null);
 
-      $this->assetService->update((string) $args['id'], $dto);
+      $this->locationService->update((string) $args['id'], $dto);
       return $response->withStatus(204);
     } catch (Exception $e) {
       return $response->withJson(['error' => $e->getMessage()], 500);
@@ -97,10 +96,20 @@ final class AssetController
   public function delete(Request $request, Response $response, array $args): Response
   {
     try {
-      $result = $this->assetService->delete((string) $args['id']);
+      $result = $this->locationService->delete((string) $args['id']);
       return $response->withJson($result);
     } catch (Exception $e) {
       return $response->withJson(['error' => $e->getMessage()], 400);
+    }
+  }
+
+  public function toggleBlock(Request $request, Response $response, array $args): Response
+  {
+    try {
+      $this->locationService->toggleBlock((string) $args['id']);
+      return $response->withStatus(204);
+    } catch (Exception $e) {
+      return $response->withJson(['error' => $e->getMessage()], 404);
     }
   }
 }

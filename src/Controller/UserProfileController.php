@@ -46,9 +46,9 @@ final class UserProfileController
       $input = $request->getParsedBody();
 
       $dto = [
-          'userId' => $input['userId'] ,
-  'roleId' => $input['roleId'] ,
-  'officeId' => $input['officeId'] ,
+        'userId' => $input['userId'],
+        'roleId' => $input['roleId'],
+        'locationId' => $input['locationId'],
       ];
 
       $dto = array_filter($dto, fn($value) => $value !== null);
@@ -62,7 +62,7 @@ final class UserProfileController
       if ($e->getCode() === $duplicateErrorCode) {
         return $response->withJson(['error' => 'The data you try to insert already exists'], 409);
       } else if ($e->getCode() === $foreignErrorCode) {
-       $error = Helper::getForeignKeyErrorMessage($e->getMessage());
+        $error = Helper::getForeignKeyErrorMessage($e->getMessage());
         return $response->withJson(['error' => $error], 404);
       } else {
         return $response->withJson(['error' => $e->getMessage()], 500);
@@ -76,9 +76,9 @@ final class UserProfileController
       $input = $request->getParsedBody();
 
       $dto = [
-          'userId' => $input['userId'] ?: null,
-  'roleId' => $input['roleId'] ?: null,
-  'officeId' => $input['officeId'] ?: null,
+        'userId' => $input['userId'] ?: null,
+        'roleId' => $input['roleId'] ?: null,
+        'locationId' => $input['locationId'] ?: null,
       ];
 
       $dto = array_filter($dto, fn($value) => $value !== null);
@@ -92,12 +92,11 @@ final class UserProfileController
 
   public function delete(Request $request, Response $response, array $args): Response
   {
-   try {
-     $result = $this->userProfileService->delete((string) $args['id']);
-     return $response->withJson($result);
-   } catch (Exception $e) {
-     return $response->withJson(['error' => $e->getMessage()], 400);
-   }
+    try {
+      $result = $this->userProfileService->delete((string) $args['id']);
+      return $response->withJson($result);
+    } catch (Exception $e) {
+      return $response->withJson(['error' => $e->getMessage()], 400);
+    }
   }
-
 }

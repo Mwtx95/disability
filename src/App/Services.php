@@ -33,3 +33,7 @@ $container['userProfileService'] = static function (Pimple\Container $container)
 $container['authService'] = static function (Pimple\Container $container): App\Service\AuthService {
     return new App\Service\AuthService($container['db']);
 };
+
+$container['locationService'] = static function (Pimple\Container $container): App\Service\LocationService {
+    return new App\Service\LocationService($container['db']);
+};

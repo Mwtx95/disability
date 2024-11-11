@@ -29,7 +29,6 @@ return static function (App $app) {
     $app->delete('/{id}', "{$asset}delete");
   });
 
-
   // --------------- Category Routes ---------------- //
   $app->group('/categories', function ($app) {
     $category = 'App\Controller\CategoryController:';
@@ -39,6 +38,7 @@ return static function (App $app) {
     $app->get('/{id}', "{$category}getOne");
     $app->put('/{id}', "{$category}update");
     $app->delete('/{id}', "{$category}delete");
+    $app->patch('/{id}/block', "{$category}toggleBlock");
   });
 
 
@@ -109,6 +109,19 @@ return static function (App $app) {
     $app->post('/login', "{$auth}login");
     $app->post('/register', "{$auth}register");
     $app->post('/logout', "{$auth}logout")->add(new AuthMiddleware());
+  });
+
+
+  // --------------- Location Routes ---------------- //
+  $app->group('/locations', function ($app) {
+    $location = 'App\Controller\LocationController:';
+
+    $app->get('', "{$location}getAll");
+    $app->post('', "{$location}create");
+    $app->get('/{id}', "{$location}getOne");
+    $app->put('/{id}', "{$location}update");
+    $app->delete('/{id}', "{$location}delete");
+    $app->patch('/{id}/block', "{$location}toggleBlock");
   });
 
   return $app;

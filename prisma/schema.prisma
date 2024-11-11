@@ -6,40 +6,35 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
 enum Status {
   Available
   Maintenance
   Rented
   NotAvailable
 }
+
 model Asset {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   description String?
-  category    Category @relation(fields: [categoryId], references: [id])
+  category    Category  @relation(fields: [categoryId], references: [id])
   categoryId  Int
-  status      Status @default(Available)
-  Office      Office?  @relation(fields: [officeId], references: [id])
-  officeId    Int?
-  createdAt   DateTime @default(now())
+  status      Status    @default(Available)
+  Location    Location? @relation(fields: [locationId], references: [id])
+  locationId  Int?
+  assignedTo  String?
+  createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
 }
 
 model Category {
-  id    Int     @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
+  description String?
+  isBlocked   Boolean   @default(false)
   Asset       Asset[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime? @updatedAt
-}
-
-
-model Office {
-  id          Int           @id @default(autoincrement())
-  name        String
-  Asset       Asset[]
-  UserProfile UserProfile[]
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
 }
 
@@ -47,31 +42,41 @@ model Role {
   id          Int           @id @default(autoincrement())
   name        String
   UserProfile UserProfile[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime? @updatedAt
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime?     @updatedAt
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   username     String
   password     String
   email        String
   refreshToken String?
-  isActive     Boolean  @default(true)
-  createdAt    DateTime @default(now())
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
   updatedAt    DateTime? @updatedAt
 
   UserProfile UserProfile[]
 }
 
 model UserProfile {
-  id       Int    @id @default(autoincrement())
-  user     User   @relation(fields: [userId], references: [id])
-  userId   Int
-  role     Role   @relation(fields: [roleId], references: [id])
-  roleId   Int
-  office   Office @relation(fields: [officeId], references: [id])
-  officeId Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime? @updatedAt
+  id        Int       @id @default(autoincrement())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  role      Role      @relation(fields: [roleId], references: [id])
+  roleId    Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Location {
+  id             Int       @id @default(autoincrement())
+  name           String
+  type           String
+  parentLocation String?
+  description    String?
+  Asset          Asset[]
+  isBlocked      Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime? @updatedAt
 }

@@ -46,7 +46,8 @@ final class CategoryController
       $input = $request->getParsedBody();
 
       $dto = [
-          'name' => $input['name'] ,
+        'name' => $input['name'],
+        'description' => $input['description'] ?: null,
       ];
 
       $dto = array_filter($dto, fn($value) => $value !== null);
@@ -60,7 +61,7 @@ final class CategoryController
       if ($e->getCode() === $duplicateErrorCode) {
         return $response->withJson(['error' => 'The data you try to insert already exists'], 409);
       } else if ($e->getCode() === $foreignErrorCode) {
-       $error = Helper::getForeignKeyErrorMessage($e->getMessage());
+        $error = Helper::getForeignKeyErrorMessage($e->getMessage());
         return $response->withJson(['error' => $error], 404);
       } else {
         return $response->withJson(['error' => $e->getMessage()], 500);
@@ -74,7 +75,8 @@ final class CategoryController
       $input = $request->getParsedBody();
 
       $dto = [
-          'name' => $input['name'] ?: null,
+        'name' => $input['name'] ?: null,
+        'description' => $input['description'] ?: null,
       ];
 
       $dto = array_filter($dto, fn($value) => $value !== null);
@@ -88,12 +90,21 @@ final class CategoryController
 
   public function delete(Request $request, Response $response, array $args): Response
   {
-   try {
-     $result = $this->categoryService->delete((string) $args['id']);
-     return $response->withJson($result);
-   } catch (Exception $e) {
-     return $response->withJson(['error' => $e->getMessage()], 400);
-   }
+    try {
+      $result = $this->categoryService->delete((string) $args['id']);
+      return $response->withJson($result);
+    } catch (Exception $e) {
+      return $response->withJson(['error' => $e->getMessage()], 400);
+    }
   }
 
+  public function toggleBlock(Request $request, Response $response, array $args): Response
+  {
+    try {
+      $this->categoryService->toggleBlock((string) $args['id']);
+      return $response->withStatus(204);
+    } catch (Exception $e) {
+      return $response->withJson(['error' => $e->getMessage()], 404);
+    }
+  }
 }

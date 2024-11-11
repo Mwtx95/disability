@@ -9,13 +9,11 @@ use Exception;
 
 final class CategoryService
 {
-  public function __construct(private readonly Connection $conn)
-  {
-  }
+  public function __construct(private readonly Connection $conn) {}
   public function getAll(): array
   {
     return $this->conn->fetchAllAssociative(
-      'SELECT id, name
+      'SELECT id, name, description, isBlocked
        FROM Category
        ORDER BY id ASC'
     );
@@ -25,10 +23,10 @@ final class CategoryService
   public function getOne(string $id): array
   {
     $result = $this->conn->fetchAssociative(
-      'SELECT id, name 
+      'SELECT id, name, description, isBlocked
        FROM Category 
        WHERE id = ?',
-       [$id]
+      [$id]
     );
 
     if (!$result) {
@@ -49,5 +47,15 @@ final class CategoryService
   public function delete(string $id): int|string
   {
     return $this->conn->delete('Category', ['id' => $id]);
+  }
+
+  public function toggleBlock(string $id): int|string
+  {
+    $category = $this->getOne($id);
+    return $this->conn->update(
+      'Category',
+      ['isBlocked' => (int)(!$category['isBlocked'])],
+      ['id' => $id]
+    );
   }
 }

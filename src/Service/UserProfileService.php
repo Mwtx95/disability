@@ -9,13 +9,11 @@ use Exception;
 
 final class UserProfileService
 {
-  public function __construct(private readonly Connection $conn)
-  {
-  }
+  public function __construct(private readonly Connection $conn) {}
   public function getAll(): array
   {
     return $this->conn->fetchAllAssociative(
-      'SELECT id, userId, roleId, officeId
+      'SELECT id, userId, roleId, locationId
        FROM UserProfile
        ORDER BY id ASC'
     );
@@ -25,10 +23,10 @@ final class UserProfileService
   public function getOne(string $id): array
   {
     $result = $this->conn->fetchAssociative(
-      'SELECT id, userId, roleId, officeId 
+      'SELECT id, userId, roleId, locationId 
        FROM UserProfile 
        WHERE id = ?',
-       [$id]
+      [$id]
     );
 
     if (!$result) {
