@@ -8,10 +8,10 @@ datasource db {
 }
 
 enum Status {
-  Available
-  Maintenance
-  Rented
-  NotAvailable
+  AVAILABLE
+  MAINTENANCE
+  RENTED
+  NOT_AVAILABLE
 }
 
 model Asset {
@@ -20,7 +20,7 @@ model Asset {
   description String?
   category    Category  @relation(fields: [categoryId], references: [id])
   categoryId  Int
-  status      Status    @default(Available)
+  status      Status    @default(AVAILABLE)
   Location    Location? @relation(fields: [locationId], references: [id])
   locationId  Int?
   assignedTo  String?

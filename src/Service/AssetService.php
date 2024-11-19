@@ -51,4 +51,12 @@ final class AssetService
   {
     return $this->conn->delete('Asset', ['id' => $id]);
   }
+
+  public function transfer(string $id, string $locationId): void
+  {
+    $this->update($id, [
+      'locationId' => $locationId,
+      'updatedAt' => (new \DateTime())->format('Y-m-d H:i:s')
+    ]);
+  }
 }

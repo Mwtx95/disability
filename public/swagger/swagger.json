@@ -7,12 +7,12 @@
     "contact": {
       "email": "abdibaker1@gmail.com",
       "name": "",
-      "url": "http://127.0.0.1:8081"
+      "url": "http://127.0.0.1:8080"
     }
   },
   "servers": [
     {
-      "url": "http://127.0.0.1:8081",
+      "url": "http://127.0.0.1:8080",
       "description": "Local server"
     }
   ],
@@ -38,7 +38,9 @@
   "paths": {
     "/assets": {
       "get": {
-        "tags": ["Asset"],
+        "tags": [
+          "Asset"
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -50,7 +52,9 @@
         }
       },
       "post": {
-        "tags": ["Asset"],
+        "tags": [
+          "Asset"
+        ],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -96,7 +100,9 @@
     },
     "/categories": {
       "get": {
-        "tags": ["Category"],
+        "tags": [
+          "Category"
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -108,7 +114,9 @@
         }
       },
       "post": {
-        "tags": ["Category"],
+        "tags": [
+          "Category"
+        ],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -139,7 +147,9 @@
     },
     "/offices": {
       "get": {
-        "tags": ["Office"],
+        "tags": [
+          "Office"
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -151,7 +161,9 @@
         }
       },
       "post": {
-        "tags": ["Office"],
+        "tags": [
+          "Office"
+        ],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -179,7 +191,9 @@
     },
     "/roles": {
       "get": {
-        "tags": ["Role"],
+        "tags": [
+          "Role"
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -191,7 +205,9 @@
         }
       },
       "post": {
-        "tags": ["Role"],
+        "tags": [
+          "Role"
+        ],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -219,7 +235,9 @@
     },
     "/statuses": {
       "get": {
-        "tags": ["Status"],
+        "tags": [
+          "Status"
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -231,7 +249,9 @@
         }
       },
       "post": {
-        "tags": ["Status"],
+        "tags": [
+          "Status"
+        ],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -259,7 +279,9 @@
     },
     "/users": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -271,7 +293,9 @@
         }
       },
       "post": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -311,7 +335,9 @@
     },
     "/user-profiles": {
       "get": {
-        "tags": ["UserProfile"],
+        "tags": [
+          "UserProfile"
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -323,7 +349,9 @@
         }
       },
       "post": {
-        "tags": ["UserProfile"],
+        "tags": [
+          "UserProfile"
+        ],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -357,7 +385,9 @@
     },
     "/auths/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -381,7 +411,9 @@
     },
     "/auths/register": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -412,7 +444,9 @@
     },
     "/locations": {
       "get": {
-        "tags": ["Location"],
+        "tags": [
+          "Location"
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -424,7 +458,9 @@
         }
       },
       "post": {
-        "tags": ["Location"],
+        "tags": [
+          "Location"
+        ],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -460,8 +496,10 @@
       }
     },
     "/assets/{id}": {
-      "get": {
-        "tags": ["Asset"],
+      "delete": {
+        "tags": [
+          "Asset"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -481,8 +519,10 @@
           }
         }
       },
-      "delete": {
-        "tags": ["Asset"],
+      "get": {
+        "tags": [
+          "Asset"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -503,7 +543,9 @@
         }
       },
       "put": {
-        "tags": ["Asset"],
+        "tags": [
+          "Asset"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -529,6 +571,15 @@
                   "categoryId": {
                     "type": "integer"
                   },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "Available",
+                      "Maintenance",
+                      "Rented",
+                      "NotAvailable"
+                    ]
+                  },
                   "locationId": {
                     "type": "integer"
                   }
@@ -547,9 +598,44 @@
         }
       }
     },
+    "/assets/{id}/transfer/{locationId}": {
+      "patch": {
+        "tags": [
+          "Asset"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "locationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
     "/categories/{id}": {
-      "delete": {
-        "tags": ["Category"],
+      "get": {
+        "tags": [
+          "Category"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -569,8 +655,10 @@
           }
         }
       },
-      "get": {
-        "tags": ["Category"],
+      "delete": {
+        "tags": [
+          "Category"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -591,7 +679,9 @@
         }
       },
       "put": {
-        "tags": ["Category"],
+        "tags": [
+          "Category"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -629,9 +719,11 @@
         }
       }
     },
-    "/offices/{id}": {
+    "/roles/{id}": {
       "get": {
-        "tags": ["Office"],
+        "tags": [
+          "Role"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -652,7 +744,9 @@
         }
       },
       "delete": {
-        "tags": ["Office"],
+        "tags": [
+          "Role"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -673,7 +767,9 @@
         }
       },
       "put": {
-        "tags": ["Office"],
+        "tags": [
+          "Role"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -708,16 +804,18 @@
         }
       }
     },
-    "/roles/{id}": {
-      "get": {
-        "tags": ["Role"],
+    "/offices/{id}": {
+      "delete": {
+        "tags": [
+          "Office"
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
@@ -730,15 +828,17 @@
           }
         }
       },
-      "delete": {
-        "tags": ["Role"],
+      "get": {
+        "tags": [
+          "Office"
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
@@ -752,14 +852,16 @@
         }
       },
       "put": {
-        "tags": ["Role"],
+        "tags": [
+          "Office"
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
@@ -789,7 +891,9 @@
     },
     "/categories/{id}/block": {
       "patch": {
-        "tags": ["Category"],
+        "tags": [
+          "Category"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -810,30 +914,11 @@
         }
       }
     },
-    "/user-profiles/{id}": {
-      "get": {
-        "tags": ["UserProfile"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      },
+    "/locations/{id}": {
       "delete": {
-        "tags": ["UserProfile"],
+        "tags": [
+          "Location"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -854,7 +939,9 @@
         }
       },
       "put": {
-        "tags": ["UserProfile"],
+        "tags": [
+          "Location"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -862,91 +949,6 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "locationId": {
-                    "type": "integer"
-                  },
-                  "userId": {
-                    "type": "integer"
-                  },
-                  "roleId": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      }
-    },
-    "/statuses/{id}": {
-      "get": {
-        "tags": ["Status"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      },
-      "delete": {
-        "tags": ["Status"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      },
-      "put": {
-        "tags": ["Status"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
             }
           }
         ],
@@ -957,6 +959,15 @@
                 "type": "object",
                 "properties": {
                   "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "parentLocation": {
                     "type": "string"
                   }
                 }
@@ -972,11 +983,11 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         }
-      }
-    },
-    "/locations/{id}/block": {
-      "patch": {
-        "tags": ["Location"],
+      },
+      "get": {
+        "tags": [
+          "Location"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -999,7 +1010,9 @@
     },
     "/users/{id}": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1020,7 +1033,9 @@
         }
       },
       "delete": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1041,7 +1056,9 @@
         }
       },
       "put": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1088,9 +1105,121 @@
         }
       }
     },
-    "/locations/{id}": {
+    "/locations/{id}/block": {
+      "patch": {
+        "tags": [
+          "Location"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/statuses/{id}": {
       "delete": {
-        "tags": ["Location"],
+        "tags": [
+          "Status"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Status"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Status"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/user-profiles/{id}": {
+      "delete": {
+        "tags": [
+          "UserProfile"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1111,7 +1240,9 @@
         }
       },
       "get": {
-        "tags": ["Location"],
+        "tags": [
+          "UserProfile"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1132,7 +1263,9 @@
         }
       },
       "put": {
-        "tags": ["Location"],
+        "tags": [
+          "UserProfile"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1149,17 +1282,14 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": {
-                    "type": "string"
+                  "locationId": {
+                    "type": "integer"
                   },
-                  "description": {
-                    "type": "string"
+                  "userId": {
+                    "type": "integer"
                   },
-                  "type": {
-                    "type": "string"
-                  },
-                  "parentLocation": {
-                    "type": "string"
+                  "roleId": {
+                    "type": "integer"
                   }
                 }
               }

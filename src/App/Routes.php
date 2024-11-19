@@ -27,6 +27,7 @@ return static function (App $app) {
     $app->get('/{id}', "{$asset}getOne");
     $app->put('/{id}', "{$asset}update");
     $app->delete('/{id}', "{$asset}delete");
+    $app->patch('/{id}/transfer/{locationId}', "{$asset}transfer");
   });
 
   // --------------- Category Routes ---------------- //

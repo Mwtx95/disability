@@ -103,4 +103,22 @@ final class AssetController
       return $response->withJson(['error' => $e->getMessage()], 400);
     }
   }
+
+  public function transfer(Request $request, Response $response, array $args): Response
+  {
+    try {
+      if (empty($args['locationId'])) {
+        return $response->withJson(['error' => 'Location ID is required'], 400);
+      }
+
+      $this->assetService->transfer((string) $args['id'], $args['locationId']);
+      return $response->withStatus(204);
+    } catch (Exception $e) {
+      if ($e->getCode() === 1452) { // Foreign key constraint error
+        $error = Helper::getForeignKeyErrorMessage($e->getMessage());
+        return $response->withJson(['error' => $error], 404);
+      }
+      return $response->withJson(['error' => $e->getMessage()], 500);
+    }
+  }
 }
