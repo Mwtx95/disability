@@ -30,6 +30,16 @@ final class CategoryController
     }
   }
 
+  public function getAllWithExtraInfo(Request $request, Response $response, array $args): Response
+  {
+    try {
+      $result = $this->categoryService->getAllWithExtraInfo();
+      return $response->withJson($result);
+    } catch (Exception $e) {
+      return $response->withJson(['error' => $e->getMessage()], 500);
+    }
+  }
+
   public function getOne(Request $request, Response $response, array $args): Response
   {
     try {

@@ -19,6 +19,23 @@ final class CategoryService
     );
   }
 
+  public function getAllWithExtraInfo(): array
+  {
+    $categories = $this->conn->fetchAllAssociative(
+      'SELECT c.id, c.name, c.description, c.isBlocked,
+              COUNT(DISTINCT CASE WHEN ai.status = "AVAILABLE" THEN ai.id END) as availableCount,
+              COUNT(DISTINCT CASE WHEN ai.status = "MAINTENANCE" THEN ai.id END) as maintenanceCount,
+              COUNT(DISTINCT CASE WHEN ai.status = "BROKEN" THEN ai.id END) as brokenCount,
+              COUNT(DISTINCT CASE WHEN ai.status = "ASSIGNED" THEN ai.id END) as assignedCount
+       FROM Category c
+       LEFT JOIN Asset a ON c.id = a.categoryId
+       LEFT JOIN AssetItem ai ON a.id = ai.assetId
+       GROUP BY c.id, c.name, c.description, c.isBlocked
+       ORDER BY c.id ASC'
+    );
+
+    return $categories;
+  }
 
   public function getOne(string $id): array
   {

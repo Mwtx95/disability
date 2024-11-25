@@ -25,6 +25,7 @@ return static function (App $app) {
     $app->get('', "{$asset}getAll");
     $app->post('', "{$asset}create");
     $app->get('/{id}', "{$asset}getOne");
+    $app->get('/category/{categoryId}', "{$asset}getByCategory");
     $app->put('/{id}', "{$asset}update");
     $app->delete('/{id}', "{$asset}delete");
     $app->patch('/{id}/transfer/{locationId}', "{$asset}transfer");
@@ -35,6 +36,7 @@ return static function (App $app) {
     $category = 'App\Controller\CategoryController:';
 
     $app->get('', "{$category}getAll");
+    $app->get('/stats', "{$category}getAllWithExtraInfo");
     $app->post('', "{$category}create");
     $app->get('/{id}', "{$category}getOne");
     $app->put('/{id}', "{$category}update");
@@ -123,6 +125,30 @@ return static function (App $app) {
     $app->put('/{id}', "{$location}update");
     $app->delete('/{id}', "{$location}delete");
     $app->patch('/{id}/block', "{$location}toggleBlock");
+  });
+
+
+  // --------------- Vendor Routes ---------------- //
+  $app->group('/vendors', function ($app) {
+    $vendor = 'App\Controller\VendorController:';
+
+    $app->get('', "{$vendor}getAll");
+    $app->post('', "{$vendor}create");
+    $app->get('/{id}', "{$vendor}getOne");
+    $app->put('/{id}', "{$vendor}update");
+    $app->delete('/{id}', "{$vendor}delete");
+  });
+
+
+  // --------------- AssetItem Routes ---------------- //
+  $app->group('/asset-items', function ($app) {
+    $assetItem = 'App\Controller\AssetItemController:';
+
+    $app->get('', "{$assetItem}getAll");
+    $app->post('', "{$assetItem}create");
+    $app->get('/{id}', "{$assetItem}getOne");
+    $app->put('/{id}', "{$assetItem}update");
+    $app->delete('/{id}', "{$assetItem}delete");
   });
 
   return $app;
