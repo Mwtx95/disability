@@ -15,7 +15,8 @@ final class AssetItemService
   public function getAll(): array
   {
     return $this->conn->fetchAllAssociative(
-      'SELECT ai.id, ai.assetId, ai.quantity, ai.price, ai.status, ai.locationId, ai.vendorId,
+      'SELECT ai.id, ai.assetId, ai.serialNumber, ai.purchaseDate, ai.warrantyExpiryDate, 
+              ai.notes, ai.quantity, ai.price, ai.status, ai.locationId, ai.vendorId,
               a.name as assetName, l.name as locationName
        FROM AssetItem ai
        JOIN Asset a ON ai.assetId = a.id
@@ -24,11 +25,30 @@ final class AssetItemService
     );
   }
 
+  
+
+  public function getAllByCategory(string $categoryId): array
+  {
+    return $this->conn->fetchAllAssociative(
+      'SELECT ai.id, ai.assetId, ai.serialNumber, ai.purchaseDate, ai.warrantyExpiryDate, 
+              ai.notes, ai.quantity, ai.price, ai.status, ai.locationId, ai.vendorId,
+              a.name as assetName, l.name as locationName,
+              c.name as categoryName
+       FROM AssetItem ai
+       JOIN Asset a ON ai.assetId = a.id
+       JOIN Category c ON a.categoryId = c.id
+       JOIN Location l ON ai.locationId = l.id
+       WHERE a.categoryId = ?
+       ORDER BY ai.id ASC',
+      [$categoryId]
+    );
+  }
 
   public function getOne(string $id): array
   {
     $result = $this->conn->fetchAssociative(
-      'SELECT ai.id, ai.assetId, ai.quantity, ai.price, ai.status, ai.locationId, ai.vendorId,
+      'SELECT ai.id, ai.assetId, ai.serialNumber, ai.purchaseDate, ai.warrantyExpiryDate, 
+              ai.notes, ai.quantity, ai.price, ai.status, ai.locationId, ai.vendorId,
               a.name as assetName, l.name as locationName
        FROM AssetItem ai
        JOIN Asset a ON ai.assetId = a.id

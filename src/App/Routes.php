@@ -140,11 +140,12 @@ return static function (App $app) {
   });
 
 
-  // --------------- AssetItem Routes ---------------- //
+  // --------------- Asset Item Routes ---------------- //
   $app->group('/asset-items', function ($app) {
     $assetItem = 'App\Controller\AssetItemController:';
 
     $app->get('', "{$assetItem}getAll");
+    $app->get('/category/{categoryId}', "{$assetItem}getAllByCategory");
     $app->post('', "{$assetItem}create");
     $app->get('/{id}', "{$assetItem}getOne");
     $app->put('/{id}', "{$assetItem}update");
