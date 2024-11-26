@@ -40,6 +40,16 @@ final class AssetController
     }
   }
 
+  public function getByCategory(Request $request, Response $response, array $args): Response
+  {
+    try {
+      $result = $this->assetService->getByCategory((string) $args['categoryId']);
+      return $response->withJson($result);
+    } catch (Exception $e) {
+      return $response->withJson(['error' => $e->getMessage()], 404);
+    }
+  }
+
   public function create(Request $request, Response $response, array $args): Response
   {
     try {

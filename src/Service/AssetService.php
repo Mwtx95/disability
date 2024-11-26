@@ -13,10 +13,9 @@ final class AssetService
   public function getAll(): array
   {
     return $this->conn->fetchAllAssociative(
-      'SELECT at.id, at.name, at.description, ct.name as categoryName, at.status, l.name as locationName, at.createdAt, at.updatedAt
+      'SELECT at.id, at.name, at.description, ct.name as categoryName, at.createdAt, at.updatedAt
        FROM Asset at
        LEFT JOIN Category ct ON at.categoryId = ct.id
-       LEFT JOIN Location l ON at.locationId = l.id
        ORDER BY at.id ASC'
     );
   }
@@ -24,10 +23,9 @@ final class AssetService
   public function getOne(string $id): array
   {
     $result = $this->conn->fetchAssociative(
-      'SELECT at.id, at.name, at.description, ct.name as categoryName, at.status, l.name as locationName, at.createdAt, at.updatedAt
+      'SELECT at.id, at.name, at.description, ct.name as categoryName, at.createdAt, at.updatedAt
        FROM Asset at
        LEFT JOIN Category ct ON at.categoryId = ct.id
-       LEFT JOIN Location l ON at.locationId = l.id
        WHERE at.id = ?',
       [$id]
     );
@@ -37,6 +35,19 @@ final class AssetService
     }
     return $result;
   }
+
+  public function getByCategory(string $categoryId): array
+  {
+    return $this->conn->fetchAllAssociative(
+      'SELECT at.id, at.name, at.description, ct.name as categoryName, at.createdAt, at.updatedAt
+       FROM Asset at
+       LEFT JOIN Category ct ON at.categoryId = ct.id
+       WHERE ct.id = ?
+       ORDER BY at.id ASC',
+      [$categoryId]
+    );
+  }
+
   public function create($data): int|string
   {
     return $this->conn->insert('Asset', $data);

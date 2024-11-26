@@ -23,6 +23,7 @@ final class CategoryService
   {
     $categories = $this->conn->fetchAllAssociative(
       'SELECT c.id, c.name, c.description, c.isBlocked,
+              COUNT(DISTINCT a.id) as totalAssets,
               COUNT(DISTINCT CASE WHEN ai.status = "AVAILABLE" THEN ai.id END) as availableCount,
               COUNT(DISTINCT CASE WHEN ai.status = "MAINTENANCE" THEN ai.id END) as maintenanceCount,
               COUNT(DISTINCT CASE WHEN ai.status = "BROKEN" THEN ai.id END) as brokenCount,

@@ -37,3 +37,11 @@ $container['authService'] = static function (Pimple\Container $container): App\S
 $container['locationService'] = static function (Pimple\Container $container): App\Service\LocationService {
     return new App\Service\LocationService($container['db']);
 };
+
+$container['vendorService'] = static function (Pimple\Container $container): App\Service\VendorService {
+    return new App\Service\VendorService($container['db']);
+};
+
+$container['assetItemService'] = static function (Pimple\Container $container): App\Service\AssetItemService {
+    return new App\Service\AssetItemService($container['db']);
+};

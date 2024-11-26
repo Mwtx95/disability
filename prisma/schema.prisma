@@ -10,22 +10,59 @@ datasource db {
 enum Status {
   AVAILABLE
   MAINTENANCE
-  RENTED
-  NOT_AVAILABLE
+  BROKEN
+  ASSIGNED
+}
+
+enum VendorStatus {
+  ACTIVE
+  INACTIVE
+  BLOCKED
 }
 
 model Asset {
-  id          Int       @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   name        String
   description String?
-  category    Category  @relation(fields: [categoryId], references: [id])
+  category    Category    @relation(fields: [categoryId], references: [id])
   categoryId  Int
-  status      Status    @default(AVAILABLE)
-  Location    Location? @relation(fields: [locationId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime?   @updatedAt
+  AssetItem   AssetItem[]
+  Location    Location?   @relation(fields: [locationId], references: [id])
   locationId  Int?
-  assignedTo  String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
+}
+
+model AssetItem {
+  id                 Int       @id @default(autoincrement())
+  asset              Asset     @relation(fields: [assetId], references: [id])
+  assetId            Int
+  serialNumber       String
+  purchaseDate       DateTime?
+  warrantyExpiryDate DateTime?
+  notes              String?
+  quantity           Int
+  price              Float
+  vendor             Vendor    @relation(fields: [vendorId], references: [id])
+  status             Status
+  location           Location  @relation(fields: [locationId], references: [id])
+  locationId         Int
+  vendorId           Int
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime? @updatedAt
+}
+
+model Vendor {
+  id            Int          @id @default(autoincrement())
+  name          String
+  contactPerson String
+  description   String?
+  email         String
+  phoneNumber   String
+  status        VendorStatus @default(ACTIVE)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime?    @updatedAt
+  AssetItem     AssetItem[]
 }
 
 model Category {
@@ -38,45 +75,15 @@ model Category {
   updatedAt   DateTime? @updatedAt
 }
 
-model Role {
-  id          Int           @id @default(autoincrement())
-  name        String
-  UserProfile UserProfile[]
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime?     @updatedAt
-}
-
-model User {
-  id           Int       @id @default(autoincrement())
-  username     String
-  password     String
-  email        String
-  refreshToken String?
-  isActive     Boolean   @default(true)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime? @updatedAt
-
-  UserProfile UserProfile[]
-}
-
-model UserProfile {
-  id        Int       @id @default(autoincrement())
-  user      User      @relation(fields: [userId], references: [id])
-  userId    Int
-  role      Role      @relation(fields: [roleId], references: [id])
-  roleId    Int
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-}
-
 model Location {
-  id             Int       @id @default(autoincrement())
+  id             Int         @id @default(autoincrement())
   name           String
   type           String
   parentLocation String?
   description    String?
   Asset          Asset[]
-  isBlocked      Boolean   @default(false)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime? @updatedAt
+  isBlocked      Boolean     @default(false)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime?   @updatedAt
+  AssetItem      AssetItem[]
 }
